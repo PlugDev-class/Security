@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 @Data
 public class SecurityManager {
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
-
     private final CustomAES256 aes256;
     private final CustomRSA2048 rsa2048;
     private final CustomDES des;
@@ -42,7 +40,6 @@ public class SecurityManager {
         message += (serverSignature);
         final byte[] firstByteArray = message.getBytes();
         final AtomicReference<byte[]> reference = new AtomicReference<>(firstByteArray);
-        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
         for (int iteration = 0; iteration < iterations; iteration++)
             reference.set(aes256.encrypt(reference.get()));
         return reference.get();
